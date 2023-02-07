@@ -1,0 +1,76 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+.navbar nav{
+    display: flex;
+    background: black;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%;
+    z-index: 10;
+    height: 64px;
+}
+
+/* .main{
+    
+} */
+
+.logo{
+    color: white;
+    font-size: 34px;
+    padding-left: 20px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.main ul{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main a{
+    text-decoration: none;
+}
+
+.main li{
+    color: white;
+    list-style: none;
+    text-decoration: none;
+    padding-right: 20px;
+    font-size: 20px;
+    transition: 10s ease ease-out;
+    
+}
+
+
+
+.end ul{
+    display: flex;
+    align-items: center;
+}
+
+.end a{
+    text-decoration: none;
+}
+
+.end li{
+    color: white;
+    list-style: none;
+    text-decoration: none;
+    padding-right: 20px;
+    font-size: 20px;
+    transition: 10s ease ease-out;
+}
+
+.main a :hover{ 
+    color: rgb(113, 214, 113);
+}
+.end a :hover{
+    color: rgb(113, 214, 113);
+
+}
