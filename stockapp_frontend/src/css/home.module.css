@@ -80,6 +80,9 @@
     background: #fffbfb;
 
 }
+.top_stock_table table{
+    border-collapse: collapse;
+}
 
 .top_stock_table table th,tr{
     font-size: 25px;

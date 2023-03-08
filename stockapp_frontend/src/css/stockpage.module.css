@@ -135,3 +135,8 @@ hr{
     grid-row: 3;
     /* grid-column: 3; */
 }
+
+.mc3_g{
+    display: flex;
+    justify-content: center;
+}

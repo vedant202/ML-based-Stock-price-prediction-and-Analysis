@@ -1,43 +1,43 @@
 import React, { Component } from 'react'
-import '../css/home.css'
+import styles from '../css/home.module.css'
 
 export default class Home extends Component {
   render() {
     return (
 
       <div>
-        <div className='home'>
-            <div className='container'>
-                <div className='container1'>
-                    <div className='title'>
+        <div className={styles.home}>
+            <div className={styles.container}>
+                <div className={styles.container1}>
+                    <div className={styles.title}>
                         <h1>Intelligent Investor</h1>
                     </div>
-                    <div className='text'>
+                    <div className={styles.text}>
                         <h3>Modern Stock tool that help you to analyze stock better</h3>
                     </div>
-                    <div className='search_box'>
+                    <div className={styles.search_box}>
                         <input placeholder='Enter a Stoc name or a Company name' />
                         <button type='button'>Search</button>
                         <div>
-                        <span className='treding'> What Trending: </span>
-                        <span className='box'>itc</span><span className='box'>Reliance</span>
-                        <span className='box'>Tata</span>
+                        <span className={styles.treding}> What Trending: </span>
+                        <span className={styles.box}>itc</span><span className='box'>Reliance</span>
+                        <span className={styles.box}>Tata</span>
                         </div>
                     </div>
 
                 </div>
-                <div className='heading2'>
+                <div className={styles.heading2}>
                     <h1>Market Movers</h1>
                 </div>
-                <div className='container2'>
+                <div className={styles.container2}>
                 
-                    <div className='box1'>
-                        <div className='t'>
+                    <div className={styles.box1}>
+                        <div className={styles.t}>
                             
 
                             <h2>Latest stocks</h2>
                         </div>
-                        <div className='top_stock_table'>
+                        <div className={styles.top_stock_table}>
                             <table>
                                 <tbody>
                                 <tr> 
@@ -60,12 +60,12 @@ export default class Home extends Component {
                             </table>
                         </div>
                     </div>
-                    <div className='box1'>
-                    <div className='t'>
+                    <div className={styles.box1}>
+                    <div className={styles.t}>
                         <h2>Top Stocks</h2>
 
                     </div>
-                    <div className='top_stock_table'>
+                    <div className={styles.top_stock_table}>
                         <table>
                               <tbody>
                               <tr> 

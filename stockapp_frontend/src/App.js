@@ -9,6 +9,8 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import NoPage from './pages/NoPage';
 import Stockpage from './pages/Stockpage';
+import News from './pages/News';
+import StockSearchPage from './pages/StockSearchPage';
 
 function App() {
   return (
@@ -22,7 +24,8 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="stockpage" element={<Stockpage />} />
-
+            <Route path="news" element={<News />} />
+            <Route path="stock_search" element={<StockSearchPage />} />
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>

@@ -1,0 +1,144 @@
+body{
+    background: #f6f4f759;
+}
+.Container{
+    min-height: 100vh;
+    margin-top: 95px;
+}
+.cont1{
+    display: flex;
+    justify-content: space-around;
+}
+.stockNews{
+    /* width: 100%; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e9e0e0;
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 24px;
+    background: white;
+}
+.headStockNews{
+    display: flex;
+    justify-content: flex-start;
+    width: 67vw;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 17px;
+}
+.stockNews hr{
+    height: 1px;
+    width: 67vw;
+    background-color: black;
+}
+.cards{
+    width: 67vw;
+}
+
+.NiftyIndex{
+    text-align: center;
+    height: 50vh;
+    width: 13vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.NiftyIndex_price{
+    font-size: 24px;
+   
+}
+.g{
+    text-align: center;
+    background: white;
+    border: 2px solid #e9e0e0;
+
+}
+
+.financeNews{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #e9e0e0;
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 24px;
+    background: white;
+}
+.headfinanceNews{
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+.financeNews hr{
+    height: 1px;
+    width: 67vw;
+    background-color: black;
+}
+
+.cardHeader a{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+.card{
+    margin-bottom: 15px;
+}
+
+.cardHeader{
+    margin-bottom: 13px;
+}
+
+.cont2{
+    width: 67vw;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-around;
+    /* text-align: center; */
+    align-items: center;
+    width: 100%;
+}
+
+.more{
+    cursor: pointer;
+    
+}
+.more:hover{
+    color: rgb(247, 151, 151);
+}
+
+.NiftyTopStocks{
+    width: 23vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #e9e0e0;
+    background-color: white;
+    height: 45vh;
+    
+}
+.NiftyTopStocks h3{
+    margin-bottom: 5vh;
+}
+.NiftyTopStocks_table{
+    border-collapse: collapse; 
+}
+.NiftyTopStocks_table th{
+    font-size: 24px;
+}
+.NiftyTopStocks_table tr{
+    border-bottom: 1pt solid black;
+}
+
+.NiftyTopStocks_table td{
+    margin-top: 10px;
+    padding-right: 10px;
+    text-align: center;
+    padding-top: 11px
+}

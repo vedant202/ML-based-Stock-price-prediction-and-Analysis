@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import { Outlet, Link } from "react-router-dom";
-import '../css/navbar.css'
+import styles from '../css/navbar.module.css'
 
 
 export default class Navbar extends Component {
   render() {
     return (
       <div>
-        <div className='navbar'>
+        <div className={styles.navbar}>
             <nav>
-                <div className='logo'>
+                <div className={styles.logo}>
                     Intelligent Investor
                 </div>
-                <div className='main'>
+                <div className={styles.main}>
                     <ul>
                         <Link to='/'>
                         <li>home</li>
@@ -23,9 +23,21 @@ export default class Navbar extends Component {
                         <Link to='/contact'>
                         <li>contact</li>
                         </Link>
+                        <Link to='/news'>
+                        <li>news</li>
+                        </Link>
+                        {/* <Link to='/news'>
+                        <li>services</li>
+                        </Link> */}
+                        <div className={styles.services_dropdown}>
+                        <button className={styles.dropServicesBtn}>services</button>
+                        <div className={styles.services_content}>
+                            <Link to='/stock_search'>Stocks</Link>
+                        </div>
+                        </div>
                     </ul>
                 </div>
-                <div className='end'>
+                <div className={styles.end}>
                     <ul>
                         <Link to='#'>
                             <li>Signin</li>
