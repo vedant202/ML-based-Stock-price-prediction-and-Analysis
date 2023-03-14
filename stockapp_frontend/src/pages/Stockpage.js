@@ -60,35 +60,36 @@ export default class Stockpage extends Component {
         <hr />
 
         <div className={styles.MainContent1}>
-          <div className={styles.box1}>
+          <div className={styles.boxes}>
+            <div className={styles.box1}>
 
-            <div className={styles.box1_head}>
-              <h2>Price Summmary</h2>
-            </div>
-          
-            <div className={styles.row}>
-              <div className={`${styles.col_1} ${styles.tc}`}>
-                <small>TODAYS's HIGH</small>
-                <p className={styles.fw}>₹ 2,327.40</p>
-              </div>
+  <div className={styles.box1_head}>
+    <h2>Price Summmary</h2>
+  </div>
 
-              <div className={`${styles.col_1} ${styles.tc}`}>
-                <small>TODAYS's LOW</small>
-                <p className={styles.fw}>₹ 2,310</p>
-              </div>
+  <div className={styles.row}>
+    <div className={`${styles.col_1} ${styles.tc}`}>
+      <small>TODAYS's HIGH</small>
+      <p className={styles.fw}>₹ 2,327.40</p>
+    </div>
 
-              <div className={`${styles.col_3} ${styles.tc}`}>
-                <small>52 WEEK HIGH</small>
-                <p className={styles.fw}>₹ 2,856.40</p>
-              </div>
+    <div className={`${styles.col_1} ${styles.tc}`}>
+      <small>TODAYS's LOW</small>
+      <p className={styles.fw}>₹ 2,310</p>
+    </div>
 
-              <div className={`${styles.col_4} ${styles.tc}`}>
-                <small>52 WEEK LOW</small>
-                <p className={styles.fw}>₹ 2,180.40</p>
-              </div>
-            </div>
-          </div>  
-          <div className={styles.box2}>
+    <div className={`${styles.col_3} ${styles.tc}`}>
+      <small>52 WEEK HIGH</small>
+      <p className={styles.fw}>₹ 2,856.40</p>
+    </div>
+
+    <div className={`${styles.col_4} ${styles.tc}`}>
+      <small>52 WEEK LOW</small>
+      <p className={styles.fw}>₹ 2,180.40</p>
+    </div>
+  </div>
+            </div>  
+            <div className={styles.box2}>
             <div className={styles.box2_head}>
                 <h2>About</h2>
                 <p className={styles.about_company_p}>
@@ -96,10 +97,12 @@ export default class Stockpage extends Component {
                 {this.state.about_company_text}  <span className={styles.about_company_m} onClick={this.addText}>{this.state.more_less}</span>
                 </p>
             </div>
+            </div>
           </div>
         </div>
 
         <div className={styles.MainContent2}>
+          <div className={styles.MainContent2_boxes}>
           <h2>Company Essentials</h2>
           <div className={styles.box1}>
             <div className={styles.row}>
@@ -163,6 +166,7 @@ export default class Stockpage extends Component {
               </div>
             </div>
           </div>
+          </div>
         </div>
 
         <div className={styles.MainContent3}>
@@ -186,7 +190,7 @@ export default class Stockpage extends Component {
               type: 'scatter'
             }
           ]}
-          layout={ {width: 620, height: 540, title: 'A Fancy Plot'} }
+          layout={ {width: 620, height: 540, title: 'Reliance Share Price'} }
           config={{displayModeBar: false}}
         />
             </div>

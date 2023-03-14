@@ -39,10 +39,10 @@ export default class Navbar extends Component {
                 </div>
                 <div className={styles.end}>
                     <ul>
-                        <Link to='#'>
+                        <Link to='/sigin'>
                             <li>Signin</li>
                         </Link>
-                        <Link to='#'>
+                        <Link to='/register'>
                             <li>Register</li>
                         </Link>
                     </ul>

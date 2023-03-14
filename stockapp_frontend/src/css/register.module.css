@@ -1,0 +1,61 @@
+.container{
+    margin-top: 56px;
+    min-height: 90vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.head{
+    font-size: 31px;
+    font-weight: 500;
+    margin-bottom: 21px;
+}
+
+.cont{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background: white;
+    box-shadow: 4px 0px 13px 0px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.row{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.col{
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+label{
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+input{
+    width: 221px;
+    height: 40px;
+    font-size: 20px;
+}
+
+.contact_form_submit .submit_btn{ 
+    width: 106px;
+    height: 40px;
+    font-size: 21px;
+    background-color: black;
+    
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}

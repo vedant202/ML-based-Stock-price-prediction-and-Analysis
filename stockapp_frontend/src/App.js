@@ -11,6 +11,8 @@ import NoPage from './pages/NoPage';
 import Stockpage from './pages/Stockpage';
 import News from './pages/News';
 import StockSearchPage from './pages/StockSearchPage';
+import Register from './pages/Register';
+import Sigin from './pages/Sigin';
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
             <Route path="stockpage" element={<Stockpage />} />
             <Route path="news" element={<News />} />
             <Route path="stock_search" element={<StockSearchPage />} />
+            <Route path="register" element={<Register />} />
+            <Route path="sigin" element={<Sigin />} />
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>

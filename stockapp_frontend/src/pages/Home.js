@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import styles from '../css/home.module.css'
 
 export default class Home extends Component {
+
+    
   render() {
     return (
 
@@ -16,12 +18,12 @@ export default class Home extends Component {
                         <h3>Modern Stock tool that help you to analyze stock better</h3>
                     </div>
                     <div className={styles.search_box}>
-                        <input placeholder='Enter a Stoc name or a Company name' />
-                        <button type='button'>Search</button>
+                        <input placeholder='Enter a Stock name or a Company name' />
+                        <button type='submit'>Search</button>
                         <div>
-                        <span className={styles.treding}> What Trending: </span>
-                        <span className={styles.box}>itc</span><span className='box'>Reliance</span>
-                        <span className={styles.box}>Tata</span>
+                            <span className={styles.treding}> What Trending: </span>
+                            <span className={styles.box}>itc</span><span className={styles.box}>Reliance</span>
+                            <span className={styles.box}>Tata</span>
                         </div>
                     </div>
 
