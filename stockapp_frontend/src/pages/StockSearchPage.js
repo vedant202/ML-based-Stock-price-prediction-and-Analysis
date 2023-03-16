@@ -1,14 +1,40 @@
-import React from 'react'
+import React,{useState} from 'react'
 import styles from '../css/stock_search.module.css'
+import getCsrfToken from '../components/CsrfTocken';
 
 export default function StockSearchPage() {
+  const [stockTicker,setStockTicker] = useState("");
+
+  const handleStockTicker = (event)=>{
+    console.log(event.target.value)
+    setStockTicker(event.target.value)
+  }
+
+  const handleSubmit = async(event)=>{
+    console.log("Submit is pressed");
+    console.log(stockTicker)
+
+    const response = await fetch("http://localhost:8000/getStock/",{
+      method:'POST',
+      body:JSON.stringify(stockTicker),
+      headers:(
+        {'X-CSRFToken': await getCsrfToken()}
+      ),
+      credentials:'include',
+    })
+
+    let data = await response.json()
+    console.log(data);
+
+  }
+
   return (
     <div className={styles.container}>
         <div className={styles.cont1}>
             <h2>Search a stock by its ticker name</h2>
             <div className={styles.search_box}>
-              <input placeholder='Enter a Stock name or a Company name' />
-                  <button type='button'>Search</button>
+              <input value={stockTicker} onChange={handleStockTicker} placeholder='Enter a Stock name or a Company name' />
+                  <button type='submit' onClick={handleSubmit}>Search</button>
               </div>
         </div>
         <div className={styles.cont2}>

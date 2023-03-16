@@ -1,12 +1,47 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+import json
+from django.middleware.csrf import get_token
 
-import stock_api.main
 
-n = stock_api.main.Nifty50()
-start = "2023-01-01"
-end = "2023-02-11"
-print(n.getHistoricNifty_YF_Data(start=start,end=end))
+from .stock_api import main 
 
-# def get_nifty_stock_price(req,res):
+
 
 # Create your views here.
+
+
+def getStock(request):
+    response = {"data":"failure"}
+    if request.method == "POST":
+        d = request.body
+        print(json.loads(d))
+        response = {"data":"success"}
+    return JsonResponse(response)
+
+def contactForm(request):
+    res = {"response":"failure","data":""}
+    if request.method == "POST":
+        print(request.body)
+        data = json.loads(request.body)
+        res = {"response":"success","data":data}
+    return JsonResponse(res)
+
+def handleLogin(request):
+    res = {"response":"failure","data":""}
+    if request.method == "POST":
+        print(request.body)
+        res = {"response":"success","data":"You are logged in"};
+    return JsonResponse(res);
+
+def handleRegister(request):
+    res = {"response":"failure","data":""}
+    if request.method == "POST":
+        print(request.body)
+        res = {"response":"success","data":"You Successfully Registered in"};
+    return JsonResponse(res);
+
+def csrf(request):
+    print("CSRF is requested")
+    return JsonResponse({'csrfToken':get_token(request)})
+

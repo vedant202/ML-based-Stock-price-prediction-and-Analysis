@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from core.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('getStock/',getStock,name="getStock"),
+    path('contactForm/',contactForm,name="contactForm"),
+    path('handleLogin/',handleLogin,name="handleLogin"),
+    path('handleRegister/',handleRegister,name="handleRegister"),
+    path('csrf/',csrf),
 ]
