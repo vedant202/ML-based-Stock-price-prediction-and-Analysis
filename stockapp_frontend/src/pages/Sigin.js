@@ -66,8 +66,10 @@ class Sigin extends Component {
     if(user){
       return (
         <Navigate to="/"></Navigate>
+        
       )
     }
+    else{
     return (
       <>
       {/* {user && (<Navigate to="/"></Navigate>)} */}
@@ -98,6 +100,7 @@ class Sigin extends Component {
     </>
     )
   }
+}
 }
 
 export default Sigin;
