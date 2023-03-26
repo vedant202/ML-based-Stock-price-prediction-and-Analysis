@@ -1,24 +1,29 @@
 import React, { Component } from 'react'
 import styles from '../css/sigin.module.css'
 import getCsrfToken from '../components/CsrfTocken';
+import {Navigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
-export default class Sigin extends Component {
+class Sigin extends Component {
 
   constructor(props){
     super(props);
-    this.state = {u_name:"",pass:""};
+    this.state = {u_name:"",pass:"",user:false,error:null};
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-
+    
   }
+   
 
   handleOnChange = (event)=>{
+    
     console.log("Change")
     console.log(event.target,event.target.value)
     this.setState({[event.target.name]:event.target.value})
   }
 
   handleSubmit = async(event)=>{
+    const {isUserLoggedIn,userAuthentication} = this.props
     console.log("Submit is clicked");
     console.log("State",this.state)
     const data = this.state
@@ -34,10 +39,38 @@ export default class Sigin extends Component {
 
     const res_data = await response.json();
     console.log("Data",res_data)
+
+    if(res_data['response']==="success"){
+      this.setState({user:true})
+      this.setState({error:false})
+      console.log("Login is successfull")
+      // save the token and redirect
+      localStorage.setItem('token',res_data["authToken"])
+
+      // window.location.replace("http://localhost:3000/");
+      // this.props.history.push("/")
+      userAuthentication(true)
+      console.log("After login "+isUserLoggedIn)
+    }
+    else{
+      this.setState({user:false})
+      this.setState({error:true})
+    }
+
+    
+      
   }
 
   render() {
+    let {user} = this.state
+    if(user){
+      return (
+        <Navigate to="/"></Navigate>
+      )
+    }
     return (
+      <>
+      {/* {user && (<Navigate to="/"></Navigate>)} */}
       <div className={styles.container}>
         <div className={styles.cont}>
         <div className={styles.head}>
@@ -62,6 +95,9 @@ export default class Sigin extends Component {
 
         </div>
     </div>
+    </>
     )
   }
 }
+
+export default Sigin;

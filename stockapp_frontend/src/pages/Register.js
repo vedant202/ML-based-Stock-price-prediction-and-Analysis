@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import styles from  '../css/register.module.css'
 import getCsrfToken from '../components/CsrfTocken';
+import {Navigate } from 'react-router-dom'
 
 export default class Register extends Component {
 
     constructor(props){
         super(props);
-        this.state = {register_form:{f_name:"",l_name:"",U_name:"",age:"",sex:"",country:"",mb_no:"",email:"",birth_date:"",pass:"",c_pass:""}}
+        this.state = {register_form:{f_name:"",l_name:"",U_name:"",age:"",sex:"",country:"",mb_no:"",email:"",birth_date:"",pass:"",c_pass:""},user:false,error:null}
 
         this.handleOnChange = this.handleOnChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -34,11 +35,29 @@ export default class Register extends Component {
         })
         
         const response_data = await response.json()
+
+        if(response_data['response']==="success"){
+            this.setState({user:true})
+            this.setState({error:false})
+            console.log("Register is successfull")
+            localStorage.setItem('token',response_data["authToken"])
+
+        }else{
+            this.setState({user:false})
+            this.setState({error:true})
+          }
+
         console.log(response_data)
     }
 
 
   render() {
+    let {user} = this.state
+    if(user){
+      return (
+        <Navigate to="/"></Navigate>
+      )
+    }
     return (
       <div className={styles.container}>
             
