@@ -22,6 +22,7 @@ urlpatterns = [
     path('getStock/',getStock,name="getStock"),
     path('contactForm/',contactForm,name="contactForm"),
     path('handleLogin/',handleLogin,name="handleLogin"),
+    path('handlelogout/',handlelogout,name="handlelogout"),
     path('handleRegister/',handleRegister,name="handleRegister"),
     path('csrf/',csrf),
 ]

@@ -1,11 +1,74 @@
 import React, { Component } from 'react'
 import { Outlet, Link } from "react-router-dom";
 import styles from '../css/navbar.module.css'
-
+import getCsrfToken from '../components/CsrfTocken';
 
 export default class Navbar extends Component {
+    constructor(props){
+        super(props);
+        this.state = {is_login_nav : ""}
+        this.checkLogin = this.checkLogin.bind(this)
+        const {isUserLoggedIn,userAuthentication} = this.props
+        this.handleLogout = this.handleLogout.bind(this)
+    }
+
+   handleLogout = async()=>{
+    console.log("Submit is clicked");
+    console.log("State",this.state)
+    const data = this.state
+    const response = await fetch('http://localhost:8000/handlelogout/',
+    {
+      method:"POST",
+      headers:(
+        {'X-CSRFToken': await getCsrfToken()}
+      ),
+      body:JSON.stringify(data),
+      credentials:'include',
+    })
+
+    const res_data = await response.json();
+    console.log("Data",res_data)
+
+   }
+   
+    checkLogin =()=>{
+        const {isUserLoggedIn,userAuthentication} = this.props
+        console.log("Component is mounted")
+        console.log("Authentication "+isUserLoggedIn)
+        if(isUserLoggedIn){
+            console.log(isUserLoggedIn)
+            this.setState({is_login_nav:`<div className={styles.end}>
+            <ul>
+                <Link to='/logout'>
+                    <li>Logout</li>
+                </Link>
+                <Link to='/register'>
+                    <li>Welcome, </li>
+                </Link>
+            </ul>
+        </div>`})
+        }
+        else{
+            this.setState({is_login_nav:`<div className={styles.end}>
+            <ul>
+                <Link to='/sigin'>
+                    <li>Signin</li>
+                </Link>
+                <Link to='/register'>
+                    <li>Register</li>
+                </Link>
+            </ul>
+        </div>`})
+        }
+        console.log("State of var "+this.state.is_login_nav)
+    };
+
   render() {
+    
+    
+       
     return (
+        
       <div>
         <div className={styles.navbar}>
             <nav>
@@ -17,7 +80,7 @@ export default class Navbar extends Component {
                         <Link to='/'>
                         <li>home</li>
                         </Link>
-                        <Link to='/about'>
+                        <Link to='/about'> 
                         <li>about</li>
                         </Link>
                         <Link to='/contact'>
@@ -37,7 +100,28 @@ export default class Navbar extends Component {
                         </div>
                     </ul>
                 </div>
-                <div className={styles.end}>
+                {
+                    this.isUserLoggedIn ?(<div className={styles.end}>
+                        <ul>
+                            <Link onClick={this.handleLogout} to='/logout'>
+                                <li>Logout</li>
+                            </Link>
+                            <Link to='/register'>
+                                <li>Welcome, </li>
+                            </Link>
+                        </ul>
+                    </div>): (<div className={styles.end}>
+            <ul>
+                <Link to='/sigin'>
+                    <li>Signin</li>
+                </Link>
+                <Link to='/register'>
+                    <li>Register</li>
+                </Link>
+            </ul>
+        </div>)
+                }
+                {/* <div className={styles.end}>
                     <ul>
                         <Link to='/sigin'>
                             <li>Signin</li>
@@ -47,6 +131,16 @@ export default class Navbar extends Component {
                         </Link>
                     </ul>
                 </div>
+                <div className={styles.end}>
+                    <ul>
+                        <Link to='/logout'>
+                            <li>Logout</li>
+                        </Link>
+                        <Link to='/register'>
+                            <li>Welcome, </li>
+                        </Link>
+                    </ul>
+                </div> */}
             </nav>
         </div>
         <Outlet />
