@@ -11,15 +11,35 @@ from .models import User
 from django.contrib.auth import authenticate,login
 from django.contrib.auth import logout
 import jwt
+import time
+from pandas_datareader import data as web
+import yfinance
+yfinance.pdr_override()
+
 # Create your views here.
 
 
+
 def getStock(request):
-    response = {"data":"failure"}
+    response = {"data":"failure", "res":False}
+    stock_data = main.StockData()
+    
+    # print(df)
     if request.method == "POST":
         d = request.body
-        print(json.loads(d))
-        response = {"data":"success"}
+        stock_ticker_name = json.loads(d)[1:-1]
+        print(stock_ticker_name[1:-1])
+        
+        try:
+            df = stock_data.get_data(stock_ticker_name)
+            
+        except Exception as e:
+           df = web.get_data_yahoo(stock_ticker_name,start = "2023-01-01",end = "2023-02-11")
+        
+       
+        print(df.to_json())
+        finance_data = stock_data.get_finance_data_yahoo(stock_ticker_name)
+        response = {"data":{"DataFrame":df.to_json(),"finance_data":finance_data}, "res":True}
     return JsonResponse(response)
 
 def contactForm(request):
