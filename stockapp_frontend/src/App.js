@@ -3,7 +3,7 @@ import './App.css';
 import './components/Navbar'
 import Navbar from './components/Navbar';
 import Footer_layout from './components/Footer_layout';
-import { BrowserRouter,Routes,Route } from 'react-router-dom'
+import { BrowserRouter,Routes,Route, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import Contact from './pages/Contact'
@@ -27,7 +27,6 @@ function App() {
     
     setUserLoggedIn(c)
   }
-
   return (
     <div className="App">
       <div >

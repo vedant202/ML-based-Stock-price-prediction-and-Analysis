@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import styles from '../css/stockpage.module.css'
 import Plot from 'react-plotly.js';
+import { Route } from 'react-router-dom';
+import getCsrfToken from '../components/CsrfTocken'; 
+
 
 export default class Stockpage extends Component {
   about_company =`Reliance Industries Limited is a Fortune 500 company and the largest private sector corporation in India. It has evolved from being a textiles and polyester company to an integrated player across energy, materials, retail, entertainment and digital services. Reliance's products and services portfolio touches almost all Indians on a daily basis, across economic and social spectrums. [1]
@@ -10,11 +13,45 @@ export default class Stockpage extends Component {
   constructor(props){
     super(props)
     this.state = {about_company_text :this.about_company.slice(0,150),
-    more_less:'more'
+    more_less:'more',fetchedData:{}
   }
     this.addText =this.addText.bind(this)
+    this.fetchData = this.fetchData.bind(this);
 
     
+    
+  }
+
+  fetchData = async(stock_ticker)=>{
+    const response = await fetch("http://localhost:8000/getStock/",{
+            method:'POST',
+            headers:(
+                {'X-CSRFToken': await getCsrfToken()}
+            ),
+            body:JSON.stringify(stock_ticker),
+            credentials:'include'
+        })
+
+        const data = await response.json();
+        if(data != null){
+            localStorage.setItem("stock_data",JSON.stringify(data))
+        }
+        return data;
+  }
+
+  componentDidMount(){
+    
+    const stock_ticker_name = localStorage.getItem("stock_data")
+    let data = this.fetchData(stock_ticker_name)
+    data.then(d=>{
+      console.log(d)
+      this.setState({"fetchedData":d})
+      
+      console.log("state fetched data")
+      console.log(this.state.fetchedData)
+
+    })
+
     
   }
   
@@ -37,6 +74,7 @@ export default class Stockpage extends Component {
         <div className={styles.Header}>
           <div className={styles.title}>
             <h1>
+              {/* <span className={styles.stockName}>Reliance Industries Ltd</span> */}
               <span className={styles.stockName}>Reliance Industries Ltd</span>
             </h1>
             <p><b>NSE</b>: <strong>RELIANCE</strong> <b>SECTOR</b>:<strong>Refineries</strong></p>

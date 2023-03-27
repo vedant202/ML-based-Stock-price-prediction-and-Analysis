@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import styles from '../css/home.module.css'
 import axios from 'axios'
 import getCsrfToken from '../components/CsrfTocken'; 
+import { Navigate } from 'react-router-dom';
 
 
 export default class Home extends Component {
     constructor(props){
         super(props);
-        this.state = {searchStock:"Enter a Stock name or a Company name"}
+        this.state = {searchStock:"Enter a Stock name or a Company name",isSubmitClicked:false}
         this.handleSearchStock = this.handleSearchStock.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -22,24 +23,34 @@ export default class Home extends Component {
         console.log("Submit");
         console.log(this.state.searchStock)
         let stock_ticker = this.state.searchStock
+        localStorage.setItem("stock_data",JSON.stringify(stock_ticker))
+        this.setState({isSubmitClicked:true})
 
-        const response = await fetch("http://localhost:8000/getStock/",{
-            method:'POST',
-            headers:(
-                {'X-CSRFToken': await getCsrfToken()}
-            ),
-            body:JSON.stringify(stock_ticker),
-            credentials:'include'
-        })
+        // const response = await fetch("http://localhost:8000/getStock/",{
+        //     method:'POST',
+        //     headers:(
+        //         {'X-CSRFToken': await getCsrfToken()}
+        //     ),
+        //     body:JSON.stringify(stock_ticker),
+        //     credentials:'include'
+        // })
 
-        const data = await response.json();
-        console.log("Data "+data)
+        // const data = await response.json();
+        // if(data != null){
+        //     localStorage.setItem("stock_data",JSON.stringify(data))
+        // }
+        
 
     }
 
   render() {
+    const {isSubmitClicked ,stock_data} = this.state
+    if(isSubmitClicked){
+        return <Navigate to="/stockpage" state={stock_data} ></Navigate>
+    }
     return (
-
+        <>
+        
       <div>
         <div className={styles.home}>
             <div className={styles.container}>
@@ -132,6 +143,7 @@ export default class Home extends Component {
             </div>
         </div>
       </div>
+      </>
     )
   }
 }
