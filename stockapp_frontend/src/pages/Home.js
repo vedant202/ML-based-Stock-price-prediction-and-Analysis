@@ -24,6 +24,7 @@ export default class Home extends Component {
         console.log(this.state.searchStock)
         let stock_ticker = this.state.searchStock
         localStorage.setItem("stock_data",JSON.stringify(stock_ticker))
+        console.log("HOME STOCK DATA "+ stock_ticker)
         this.setState({isSubmitClicked:true})
 
         // const response = await fetch("http://localhost:8000/getStock/",{

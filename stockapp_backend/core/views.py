@@ -27,17 +27,22 @@ def getStock(request):
     # print(df)
     if request.method == "POST":
         d = request.body
+        print(d)
         stock_ticker_name = json.loads(d)[1:-1]
-        print(stock_ticker_name[1:-1])
+        print("Stock Ticker name " +stock_ticker_name)
         
         try:
             df = stock_data.get_data(stock_ticker_name)
             
+            
         except Exception as e:
+           print(e)
            df = web.get_data_yahoo(stock_ticker_name,start = "2023-01-01",end = "2023-02-11")
-        
-       
-        print(df.to_json())
+        df.reset_index(inplace=True)
+        df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
+        # print(df.)
+
+        # print(df.to_json())
         finance_data = stock_data.get_finance_data_yahoo(stock_ticker_name)
         response = {"data":{"DataFrame":df.to_json(),"finance_data":finance_data}, "res":True}
     return JsonResponse(response)

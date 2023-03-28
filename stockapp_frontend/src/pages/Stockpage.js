@@ -12,9 +12,36 @@ export default class Stockpage extends Component {
 
   constructor(props){
     super(props)
+  //  Index(['language', 'region', 'quoteType', 'typeDisp', 'quoteSourceName',
+  //       'triggerable', 'customPriceAlertConfidence', 'currency', 'exchange',
+  //       'shortName', 'longName', 'messageBoardId', 'exchangeTimezoneName',
+  //       'exchangeTimezoneShortName', 'gmtOffSetMilliseconds', 'market',
+  //       'esgPopulated', 'marketState', 'regularMarketChangePercent',
+  //       'regularMarketPrice', 'earningsTimestamp', 'earningsTimestampStart',
+  //       'earningsTimestampEnd', 'trailingAnnualDividendRate', 'trailingPE',
+  //       'trailingAnnualDividendYield', 'epsTrailingTwelveMonths', 'epsForward',
+  //       'sharesOutstanding', 'bookValue', 'fiftyDayAverage',
+  //       'fiftyDayAverageChange', 'fiftyDayAverageChangePercent',
+  //       'twoHundredDayAverage', 'twoHundredDayAverageChange',
+  //       'twoHundredDayAverageChangePercent', 'marketCap', 'forwardPE',
+  //       'priceToBook', 'sourceInterval', 'exchangeDataDelayedBy',
+  //       'firstTradeDateMilliseconds', 'priceHint', 'regularMarketChange',
+  //       'regularMarketTime', 'regularMarketDayHigh', 'regularMarketDayRange',
+  //       'regularMarketDayLow', 'regularMarketVolume',
+  //       'regularMarketPreviousClose', 'bid', 'ask', 'bidSize', 'askSize',
+  //       'averageDailyVolume3Month', 'averageDailyVolume10Day',
+  //       'fiftyTwoWeekLowChange', 'fiftyTwoWeekLowChangePercent',
+  //       'fiftyTwoWeekRange', 'fiftyTwoWeekHighChange',
+  //       'fiftyTwoWeekHighChangePercent', 'fiftyTwoWeekLow', 'fiftyTwoWeekHigh',
+  //       'averageAnalystRating', 'tradeable', 'cryptoTradeable', 'price'],
+  //      dtype='object')
+
     this.state = {about_company_text :this.about_company.slice(0,150),
-    more_less:'more',fetchedData:{}
+    more_less:'more',fetchedData:{longName:"Company Name Industries Ltd",shortName:"Company",currPrice:"1000",
+         stockExc:"NSE Today",currTime:Date.now(),todaysHigh:"",todaysLow:"",fiftyTwoWeekHigh:"",fiftyTwoWeekLow:"",marketCap:"",epsForward:"",trailingAnnualDividendRate:"",trailingPE:"",trailingAnnualDividendYield:"",sharesOutstanding:"",bookValue:"",fiftyDayAverage:"",priceToBook:""       
+  },dateDF:[],closePriceDF:[]
   }
+    this.stock_ticker_ls = localStorage.getItem("stock_data").slice(1,localStorage.getItem("stock_data").length -1) 
     this.addText =this.addText.bind(this)
     this.fetchData = this.fetchData.bind(this);
 
@@ -33,22 +60,31 @@ export default class Stockpage extends Component {
         })
 
         const data = await response.json();
-        if(data != null){
-            localStorage.setItem("stock_data",JSON.stringify(data))
-        }
+        // if(data != null){
+        //     localStorage.setItem("stock_data",JSON.stringify(data))
+        // }
         return data;
   }
 
   componentDidMount(){
-    
+    console.log("Constructor "+ this.stock_ticker_ls)
     const stock_ticker_name = localStorage.getItem("stock_data")
+    console.log("fetched data")
+    console.log(stock_ticker_name)
     let data = this.fetchData(stock_ticker_name)
+    console.log(data)
+    // localStorage.removeItem("stock_data")
     data.then(d=>{
       console.log(d)
-      this.setState({"fetchedData":d})
-      
+      let df = d.data.DataFrame
+      df = JSON.parse(df)
+      // console.log(JSON.parse(df))
+      d = d.data.finance_data
+      this.setState({"fetchedData":{longName:d.longName,shortName:d.shortName,currPrice:d.price,todaysHigh:d.regularMarketDayHigh,todaysLow:d.regularMarketDayLow,fiftyTwoWeekHigh:d.fiftyTwoWeekHigh,fiftyTwoWeekLow:d.fiftyTwoWeekLow,marketCap:d.marketCap,epsForward:d.epsForward,trailingAnnualDividendRate:d.trailingAnnualDividendRate,trailingPE:d.trailingPE,trailingAnnualDividendYield:d.trailingAnnualDividendYield,sharesOutstanding:d.sharesOutstanding,
+        bookValue:d.bookValue,fiftyDayAverage:d.fiftyDayAverage,priceToBook:d.priceToBook}})
+      this.setState({dateDF:Object.values(df.Date),closePriceDF:Object.values(df.Close)})
       console.log("state fetched data")
-      console.log(this.state.fetchedData)
+      console.log(this.state.fetchedData.longName)
 
     })
 
@@ -75,15 +111,16 @@ export default class Stockpage extends Component {
           <div className={styles.title}>
             <h1>
               {/* <span className={styles.stockName}>Reliance Industries Ltd</span> */}
-              <span className={styles.stockName}>Reliance Industries Ltd</span>
+              <span className={styles.stockName}>{this.state.fetchedData.longName[this.stock_ticker_ls]}</span>
             </h1>
-            <p><b>NSE</b>: <strong>RELIANCE</strong> <b>SECTOR</b>:<strong>Refineries</strong></p>
+            <p><b>NSE</b>: <strong>{this.state.fetchedData.shortName[this.stock_ticker_ls]}</strong> <b>SECTOR</b>:<strong>Refineries</strong></p>
           </div>
 
           <div className={styles.stock_price}>
             <div>
               <span className={styles.currentPrice}>
-                2,312.6
+              {this.state.fetchedData.currPrice[this.stock_ticker_ls]}
+
               </span>
             </div>
            <div>
@@ -108,22 +145,22 @@ export default class Stockpage extends Component {
   <div className={styles.row}>
     <div className={`${styles.col_1} ${styles.tc}`}>
       <small>TODAYS's HIGH</small>
-      <p className={styles.fw}>₹ 2,327.40</p>
+      <p className={styles.fw}>{this.state.fetchedData.todaysHigh[this.stock_ticker_ls]}</p>
     </div>
 
     <div className={`${styles.col_1} ${styles.tc}`}>
       <small>TODAYS's LOW</small>
-      <p className={styles.fw}>₹ 2,310</p>
+      <p className={styles.fw}>{this.state.fetchedData.todaysLow[this.stock_ticker_ls]}</p>
     </div>
 
     <div className={`${styles.col_3} ${styles.tc}`}>
       <small>52 WEEK HIGH</small>
-      <p className={styles.fw}>₹ 2,856.40</p>
+      <p className={styles.fw}>{this.state.fetchedData.fiftyTwoWeekHigh[this.stock_ticker_ls]}</p>
     </div>
 
     <div className={`${styles.col_4} ${styles.tc}`}>
       <small>52 WEEK LOW</small>
-      <p className={styles.fw}>₹ 2,180.40</p>
+      <p className={styles.fw}>{this.state.fetchedData.fiftyTwoWeekLow[this.stock_ticker_ls]}</p>
     </div>
   </div>
             </div>  
@@ -146,7 +183,7 @@ export default class Stockpage extends Component {
             <div className={styles.row}>
               <div className={styles.col_1}>
                 <small>MARKET CAP</small>
-                <p>₹ 15,00,000 Cr.</p>
+                <p>₹ {this.state.fetchedData.marketCap[this.stock_ticker_ls]}</p>
               </div>
               
               <div className={styles.col_1}>
@@ -160,11 +197,11 @@ export default class Stockpage extends Component {
               </div>
               <div className={styles.col_1}>
                 <small>P/E</small>
-                <p>₹ 15,00,000 Cr.</p>
+                <p>₹ {this.state.fetchedData.trailingPE[this.stock_ticker_ls]}</p>
               </div>
               <div className={styles.col_2}>
                 <small>P/B</small>
-                <p>₹ 15,00,000 Cr.</p>
+                <p>₹ {this.state.fetchedData.priceToBook[this.stock_ticker_ls]}</p>
               </div>
 
               <div className={styles.col_2}>
@@ -174,12 +211,12 @@ export default class Stockpage extends Component {
 
               <div className={styles.col_2}>
                 <small>DIV. YIELD</small>
-                <p>₹ 15,00,000 Cr.</p>
+                <p>₹ {this.state.fetchedData.trailingAnnualDividendYield[this.stock_ticker_ls]}</p>
               </div>
 
               <div className={styles.col_2}>
                 <small>BOOK VALUE (TTM)</small>
-                <p>₹ 15,00,000 Cr.</p>
+                <p>₹ {this.state.fetchedData.bookValue[this.stock_ticker_ls]}.</p>
               </div>
 
               
@@ -200,7 +237,7 @@ export default class Stockpage extends Component {
 
               <div className={styles.col_3}>
                 <small>EPS (TTM) </small>
-                <p>₹ 15,00,000 Cr.</p>
+                <p>₹ {this.state.fetchedData.epsForward[this.stock_ticker_ls]}.</p>
               </div>
             </div>
           </div>
@@ -221,14 +258,22 @@ export default class Stockpage extends Component {
           //     marker: {color: 'red'},
           //   }
           // ]}
+          // var data = {[
+          //   {
+          //     x: ['2013-10-04 22:23:00', '2013-11-04 22:23:00', '2013-12-04 22:23:00'],
+          //     y: [1, 3, 6],
+          //     type: 'scatter'
+          //   }
+          // ]}
           var data = {[
             {
-              x: ['2013-10-04 22:23:00', '2013-11-04 22:23:00', '2013-12-04 22:23:00'],
-              y: [1, 3, 6],
+              x: this.state.dateDF,
+              y: this.state.closePriceDF,
               type: 'scatter'
             }
           ]}
-          layout={ {width: 620, height: 540, title: 'Reliance Share Price'} }
+
+          layout={ {width: 620, height: 540, title: `${this.state.fetchedData.longName[this.stock_ticker_ls]} Share Price`} }
           config={{displayModeBar: false}}
         />
             </div>
