@@ -3,14 +3,21 @@ import styles from '../css/home.module.css'
 import axios from 'axios'
 import getCsrfToken from '../components/CsrfTocken'; 
 import { Navigate } from 'react-router-dom';
+import Plot from 'react-plotly.js';
 
 
 export default class Home extends Component {
     constructor(props){
         super(props);
-        this.state = {searchStock:"Enter a Stock name or a Company name",isSubmitClicked:false}
+        this.state = {searchStock:"Enter a Stock name or a Company name",isSubmitClicked:false
+        ,niftydata:{Date:"",CloseData:""}}
         this.handleSearchStock = this.handleSearchStock.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.fetchNiftyData = this.fetchNiftyData.bind(this)
+        
+        
+        
+        
     }
 
     handleSearchStock = (event)=>{
@@ -26,7 +33,7 @@ export default class Home extends Component {
         localStorage.setItem("stock_data",JSON.stringify(stock_ticker))
         console.log("HOME STOCK DATA "+ stock_ticker)
         this.setState({isSubmitClicked:true})
-
+        // this.niftydata = {}
         // const response = await fetch("http://localhost:8000/getStock/",{
         //     method:'POST',
         //     headers:(
@@ -42,6 +49,24 @@ export default class Home extends Component {
         // }
         
 
+    }
+    fetchNiftyData = async()=>{
+        const response = await fetch("http://localhost:8000/getNiftyData/",{
+                method:'GET',
+                // headers:(
+                //     {'X-CSRFToken': await getCsrfToken()}
+                // ),
+                // body:JSON.stringify(stock_ticker),
+                credentials:'include'
+            })
+        const data = await response.json();
+        console.log(data)
+        let json_nifty_data = JSON.parse(data.nifty_data)
+        this.setState({niftydata:{Date:Object.values(json_nifty_data['Date']),CloseData:Object.values(json_nifty_data['Close'])}})
+    }
+    componentDidMount(){
+        console.log("Component did mount")
+        
     }
 
   render() {
@@ -141,6 +166,19 @@ export default class Home extends Component {
                     </div>
                     
                 </div>
+
+                <div className={styles.g}>
+        <Plot data={[
+            {
+            x: this.props.niftydata['Date'],
+            y:this.props.niftydata['Close'],
+            type: 'scatter'
+        }
+        ]}
+        layout={ { height: 540,width:1000, title: 'Nifty 50 Price List'} }
+        config={{displayModeBar: false}}
+        ></Plot>
+        </div>
             </div>
         </div>
       </div>

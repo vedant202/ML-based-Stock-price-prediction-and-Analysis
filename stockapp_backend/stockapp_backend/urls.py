@@ -24,5 +24,8 @@ urlpatterns = [
     path('handleLogin/',handleLogin,name="handleLogin"),
     path('handlelogout/',handlelogout,name="handlelogout"),
     path('handleRegister/',handleRegister,name="handleRegister"),
+    path('getNews/',getNews,name="getNews"),
+    path('getNiftyData/',getNiftyData,name="getNiftyData"),
+    # getNiftyData
     path('csrf/',csrf),
 ]

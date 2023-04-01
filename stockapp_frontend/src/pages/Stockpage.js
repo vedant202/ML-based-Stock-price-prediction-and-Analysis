@@ -44,7 +44,7 @@ export default class Stockpage extends Component {
     this.stock_ticker_ls = localStorage.getItem("stock_data").slice(1,localStorage.getItem("stock_data").length -1) 
     this.addText =this.addText.bind(this)
     this.fetchData = this.fetchData.bind(this);
-
+    this.todays_date = String(new Date().getDate())+"-"+String(new Date().getMonth())+ "-" +String(new Date().getFullYear())
     
     
   }
@@ -127,7 +127,7 @@ export default class Stockpage extends Component {
               <div className={styles.stockExc_name}>
                   NSE:Today
               </div>
-              <div className={styles.curr_time}>07 Feb 2023</div>
+              <div className={styles.curr_time}>{this.todays_date}</div>
             </div>
 
           </div>

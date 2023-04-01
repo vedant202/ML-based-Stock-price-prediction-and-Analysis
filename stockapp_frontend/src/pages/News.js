@@ -2,10 +2,48 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styles from '../css/news.module.css'
 import Plot from 'react-plotly.js';
-
+import getCsrfToken from '../components/CsrfTocken'; 
+import { useEffect,useState } from 'react';
 
 
 export default function News() {
+    let i=0
+
+    const [newsdata,setNewsdata] = useState([]);
+    const [niftydata,setNiftydata] = useState({Date:"",CloseData:""});
+
+    const fetchData = async(stock_ticker)=>{
+        const response = await fetch("http://localhost:8000/getNews/",{
+                method:'GET',
+                // headers:(
+                //     {'X-CSRFToken': await getCsrfToken()}
+                // ),
+                // body:JSON.stringify(stock_ticker),
+                credentials:'include'
+            })
+    
+            const data = await response.json();
+            console.log(data)
+            setNewsdata(data.data);
+            
+            let json_nifty_data = JSON.parse(data.nifty_data)
+            setNiftydata({Date:Object.values(json_nifty_data['Date']),CloseData:Object.values(json_nifty_data['Close'])})
+            console.log(JSON.parse(data.nifty_data))
+            // if(data != null){
+            //     localStorage.setItem("stock_data",JSON.stringify(data))
+            // }
+        return data;
+    }
+
+    useEffect(()=>{
+        console.log("News Use Effect")
+        fetchData();
+        // console.log(newsdata)
+        // console.log(niftydata)
+        
+        
+    },[])
+
   return (
     <div className={styles.Container}>
         <div className={styles.cont1}>
@@ -15,7 +53,27 @@ export default function News() {
             </div>
             <hr />
             <div className={styles.cards}>
-                <div className='card'>
+                {newsdata.map((n)=>{
+                    if(i<4){
+
+                        i =i+1;
+                    return (<div className='card'>
+                    <div className='cardHeader'>
+                        <Link to=""><h3>{n.title}</h3></Link>
+                    </div>
+                    <div className='cardPara'>{n.para.slice(0,200)}</div>
+                </div>)
+                    }
+                    console.log(i)
+                    
+                })}
+                {/* <div className='card'>
+                    <div className='cardHeader'>
+                        <Link to=""><h3>Zomato shares slip 7% as Q3 loss widens to Rs 346.6 crore</h3></Link>
+                    </div>
+                    <div className='cardPara'>Zomato touched an intraday low of Rs 50.35, falling 7.44% on BSE. The stock opened lower at Rs 53 against the previous close of Rs 54.40</div>
+                </div> */}
+                {/* <div className='card'>
                     <div className='cardHeader'>
                         <Link to=""><h3>Zomato shares slip 7% as Q3 loss widens to Rs 346.6 crore</h3></Link>
                     </div>
@@ -26,13 +84,7 @@ export default function News() {
                         <Link to=""><h3>Zomato shares slip 7% as Q3 loss widens to Rs 346.6 crore</h3></Link>
                     </div>
                     <div className='cardPara'>Zomato touched an intraday low of Rs 50.35, falling 7.44% on BSE. The stock opened lower at Rs 53 against the previous close of Rs 54.40</div>
-                </div>
-                <div className='card'>
-                    <div className='cardHeader'>
-                        <Link to=""><h3>Zomato shares slip 7% as Q3 loss widens to Rs 346.6 crore</h3></Link>
-                    </div>
-                    <div className='cardPara'>Zomato touched an intraday low of Rs 50.35, falling 7.44% on BSE. The stock opened lower at Rs 53 against the previous close of Rs 54.40</div>
-                </div>
+                </div> */}
             </div>
             <div className={styles.more}>
                 ...more
@@ -48,12 +100,12 @@ export default function News() {
         <div className={styles.g}>
         <Plot data={[
             {
-            x: ['2023-02-02 22:23:00','2023-02-03 22:23:00','2023-02-04 22:23:00', '2023-02-05 22:23:00', '2023-02-06 22:23:00','2023-02-07 22:23:00','2023-02-08 22:23:00','2023-02-09 22:23:00'],
-            y:[17609,17609.10,17608,17610.9,17611,17613,17607,17610],
+            x: niftydata.Date,
+            y:niftydata.CloseData,
             type: 'scatter'
         }
         ]}
-        layout={ { height: 340, title: 'Nifty 50 Price List'} }
+        layout={ { height: 540,width:1000, title: 'Nifty 50 Price List'} }
         config={{displayModeBar: false}}
         ></Plot>
         </div>
