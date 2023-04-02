@@ -11,6 +11,7 @@ export default class Home extends Component {
         super(props);
         this.state = {searchStock:"Enter a Stock name or a Company name",isSubmitClicked:false
         ,niftydata:{Date:"",CloseData:""}}
+
         this.handleSearchStock = this.handleSearchStock.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.fetchNiftyData = this.fetchNiftyData.bind(this)
@@ -66,7 +67,7 @@ export default class Home extends Component {
     }
     componentDidMount(){
         console.log("Component did mount")
-        
+        console.log(this.props)
     }
 
   render() {
@@ -117,16 +118,16 @@ export default class Home extends Component {
                                     <th>Close Price</th>
                                     </tr> 
                                     <tr>
-                                        <td>Tata Motors</td>
-                                        <td>400</td>
+                                        <td>Reliance</td>
+                                        <td>{this.props.compData.close_price['RELIANCE.NS']}</td>
                                     </tr> 
                                     <tr>
-                                        <td>Adani Ports</td>
-                                        <td>1400</td>
+                                        <td>Tata Consultancy Services</td>
+                                        <td>{this.props.compData.close_price['TCS.NS']}</td>
                                     </tr> 
                                     <tr>
-                                        <td>Trident</td>
-                                        <td>40</td>
+                                        <td>HDFC Bank</td>
+                                        <td>{this.props.compData.close_price['HDFCBANK.NS']}</td>
                                     </tr> 
                                 </tbody>
                             </table>
@@ -146,19 +147,19 @@ export default class Home extends Component {
                                 </tr> 
 
                                 <tr>
-                                    <td>Tata Motors</td>
-                                    <td>400</td>
+                                    <td>Infosys</td>
+                                    <td>{this.props.compData.close_price['INFY.NS']}</td>
                                     
                                 </tr> 
                                 
                                 
                                 <tr>
-                                    <td>Adani Ports</td>
-                                    <td>1400</td>
+                                    <td>Hindustan Uniliver ltd</td>
+                                    <td>{this.props.compData.close_price['HINDUNILVR.NS']}</td>
                                 </tr> 
                                 <tr>
-                                    <td>Trident</td>
-                                    <td>40</td>
+                                    <td>ICICI Bank</td>
+                                    <td>{this.props.compData.close_price['ICICIBANK.NS']}</td>
                                 </tr> 
                               </tbody>
                         </table>

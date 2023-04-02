@@ -47,6 +47,23 @@ class StockData:
             print("Error in finance data yahoo ",e )
         return finance__dict
     
+    tickers = ['RELIANCE.NS','TCS.NS','HDFCBANK.NS','INFY.NS','HINDUNILVR.NS','ICICIBANK.NS']
+    open_price = {}
+    close_price = {}
+    
+    def getOpenCloseStockPrice(self):
+        try:
+            for ticker in self.tickers:
+                start = str(datetime.now().year) +"-"+ str(datetime.now().month-1)+"-"+ str(datetime.now().day)
+                end = str(datetime.now().year) +"-"+ str(datetime.now().month)+"-"+ str(datetime.now().day)
+                df = web.get_data_yahoo(ticker,start = start,end = end)
+                # print(ticker,df.tail(1)['Close'][0])
+                self.open_price[ticker] = df.tail(1)['Open'][0]
+                self.close_price[ticker] = df.tail(1)['Close'][0]
+            
+        except Exception as e:
+            print("Error in getOpenCloseStockPrice ")
+        return self.open_price,self.close_price
 class News:
     def get_news(self):
 
@@ -99,6 +116,10 @@ class News:
         return data
 
 
+sd = StockData()
+open_price,close_price=sd.getOpenCloseStockPrice()
+print(open_price)
+print(close_price)
 # nf = Nifty50()
 # print(nf.getHistoricSensex_data())
 

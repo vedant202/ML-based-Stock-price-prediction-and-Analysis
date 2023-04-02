@@ -21,6 +21,8 @@ import getCsrfToken from './components/CsrfTocken';
 
 function App() {
   const [niftydata,setNiftydata] = useState({Date:"",Close:""});
+  const [niftyClosePrice,setNiftyClosePrice] = useState(0);
+  const [compData,setCompData] = useState({open_price:{},close_price:{}})
   const fetchNiftyData = async()=>{
     const response = await fetch("http://localhost:8000/getNiftyData/",{
             method:'GET',
@@ -34,11 +36,28 @@ function App() {
     let json_nifty_data = JSON.parse(data.nifty_data)
     console.log("App.js",json_nifty_data)
     setNiftydata({Date:Object.values(json_nifty_data['Date']),Close:Object.values(json_nifty_data['Close'])})
+    setNiftyClosePrice(Object.values(json_nifty_data['Close']).slice(-1))
+}
+  const fetchCompaniesData = async()=>{
+    const response = await fetch("http://localhost:8000/companiesByMarketValuation/",{
+            method:'GET',
+            // headers:(
+            //     {'X-CSRFToken': await getCsrfToken()}
+            // ),
+            // body:JSON.stringify(stock_ticker),
+            credentials:'include'
+        })
+    const data = await response.json();
+    console.log(data)
+    let companies_data = data.data
+    console.log("App.js",companies_data)
+    setCompData({open_price:companies_data['open_price'], close_price:companies_data['close_price']})
+    
 }
 
   useEffect(()=>{
     fetchNiftyData()
-
+    fetchCompaniesData()
   },[])
   
   return (
@@ -48,12 +67,12 @@ function App() {
         
         <Routes>
           <Route  path="/" element={<Navbar />}>
-            <Route index element={<Home niftydata={niftydata}  />} />
+            <Route index element={<Home niftydata={niftydata} compData={compData} />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="stockpage" element={<Stockpage />} />
             <Route path="news" element={<News />} />
-            <Route path="stock_search" element={<StockSearchPage />} />
+            <Route path="stock_search" element={<StockSearchPage niftyClosePrice={niftyClosePrice} />} />
             <Route path="register" element={<Register />} />
             <Route  path="sigin" element={<Sigin  />} />
             <Route path="*" element={<NoPage />} />

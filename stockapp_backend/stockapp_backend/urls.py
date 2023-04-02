@@ -26,6 +26,10 @@ urlpatterns = [
     path('handleRegister/',handleRegister,name="handleRegister"),
     path('getNews/',getNews,name="getNews"),
     path('getNiftyData/',getNiftyData,name="getNiftyData"),
+    path('companiesByMarketValuation/',companiesByMarketValuation,name="companiesByMarketValuation"),
+    path('getSensexData/',getSensexData,name="getSensexData"),
+    # getSensexData
+    # companiesByMarketValuation
     # getNiftyData
     path('csrf/',csrf),
 ]

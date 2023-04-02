@@ -1,9 +1,33 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import styles from '../css/stock_search.module.css'
 import getCsrfToken from '../components/CsrfTocken';
+// import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function StockSearchPage() {
+export default function StockSearchPage(props) {
   const [stockTicker,setStockTicker] = useState("");
+  const [submitClicked,setSubmitClicked] = useState(false);
+  const [sensexCloseData,setSensexCloseData] = useState(0)
+  const navigate = useNavigate();
+
+  const fetchSensexData = async()=>{
+    const response = await fetch("http://localhost:8000/getSensexData/",{
+            method:'GET',
+            // headers:(
+            //     {'X-CSRFToken': await getCsrfToken()}
+            // ),
+            // body:JSON.stringify(stock_ticker),
+            credentials:'include'
+        })
+    const data = await response.json();
+    let json_sensex_data = JSON.parse(data.sensex_data)
+    console.log("Stock Search Page",json_sensex_data)
+    setSensexCloseData(Object.values(json_sensex_data['Close']).slice(-1))
+  }
+
+  useEffect(()=>{
+    fetchSensexData();
+  },[])
 
   const handleStockTicker = (event)=>{
     console.log(event.target.value)
@@ -14,18 +38,13 @@ export default function StockSearchPage() {
     console.log("Submit is pressed");
     console.log(stockTicker)
 
-    const response = await fetch("http://localhost:8000/getStock/",{
-      method:'POST',
-      body:JSON.stringify(stockTicker),
-      headers:(
-        {'X-CSRFToken': await getCsrfToken()}
-      ),
-      credentials:'include',
-    })
-
-    let data = await response.json()
-    console.log(data);
-
+    console.log("Submit");
+    console.log(stockTicker)
+    let stock_ticker = stockTicker
+    localStorage.setItem("stock_data",JSON.stringify(stock_ticker))
+    console.log("HOME STOCK DATA "+ stock_ticker)
+    setSubmitClicked(true)
+    navigate('/stockpage')
   }
 
   return (
@@ -40,11 +59,11 @@ export default function StockSearchPage() {
         <div className={styles.cont2}>
         <div className={styles.cont2_box1}>
               <h4>Nifty50</h4>
-              <span className={styles.price}>₹ 20,000</span>
+              <span className={styles.price}>₹ {props.niftyClosePrice}</span>
             </div>
             <div className={styles.cont2_box1}>
             <h4>Sensex</h4>
-              <span className={styles.price}>₹ 50,000</span>
+              <span className={styles.price}>₹ {sensexCloseData}</span>
             </div>
         </div>
 

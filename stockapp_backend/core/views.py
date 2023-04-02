@@ -75,6 +75,26 @@ def getNiftyData(request):
         res = {"response":"success","nifty_data":nifty_data.to_json()}
     return JsonResponse(res);
 
+def getSensexData(request):
+    res = {"response":"failure","sensex_data":""}
+    sensex = main.Nifty50()
+    if request.method =="GET":
+        sensex_data = sensex.getHistoricSensex_data();
+        sensex_data.reset_index(inplace=True)
+        sensex_data['Date'] = sensex_data['Date'].dt.strftime('%Y-%m-%d')
+        res = {"response":"success","sensex_data":sensex_data.to_json()}
+    return JsonResponse(res);
+
+def companiesByMarketValuation(request):
+    res = {"response":"failure","data":""}
+    stock_data = main.StockData()
+
+    if(request.method == 'GET'):
+        open_price,close_price = stock_data.getOpenCloseStockPrice();
+        print(open_price,close_price)
+        res = {"response":"success","data":{"open_price":open_price,"close_price":close_price}}
+    
+    return JsonResponse(res);
 
 def contactForm(request):
     res = {"response":"failure","data":""}

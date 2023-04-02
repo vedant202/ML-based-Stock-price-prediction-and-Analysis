@@ -273,7 +273,7 @@ export default class Stockpage extends Component {
             }
           ]}
 
-          layout={ {width: 620, height: 540, title: `${this.state.fetchedData.longName[this.stock_ticker_ls]} Share Price`} }
+          layout={ {height: 540,width:1000, title: `${this.state.fetchedData.longName[this.stock_ticker_ls]} Share Price`} }
           config={{displayModeBar: false}}
         />
             </div>
