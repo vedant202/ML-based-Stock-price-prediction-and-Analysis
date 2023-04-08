@@ -28,6 +28,8 @@ urlpatterns = [
     path('getNiftyData/',getNiftyData,name="getNiftyData"),
     path('companiesByMarketValuation/',companiesByMarketValuation,name="companiesByMarketValuation"),
     path('getSensexData/',getSensexData,name="getSensexData"),
+    path('getNifty50Stocks/',getNifty50Stocks,name="getNifty50Stocks"),
+    # getNifty50Stocks
     # getSensexData
     # companiesByMarketValuation
     # getNiftyData

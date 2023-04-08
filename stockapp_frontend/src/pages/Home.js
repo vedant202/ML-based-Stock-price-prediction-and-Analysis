@@ -168,18 +168,20 @@ export default class Home extends Component {
                     
                 </div>
 
-                <div className={styles.g}>
-        <Plot data={[
-            {
-            x: this.props.niftydata['Date'],
-            y:this.props.niftydata['Close'],
-            type: 'scatter'
-        }
-        ]}
-        layout={ { height: 540,width:1000, title: 'Nifty 50 Price List'} }
-        config={{displayModeBar: false}}
-        ></Plot>
+        <div className={styles.g}>
+                <Plot data={[
+                    {
+                    x: this.props.niftydata['Date'],
+                    y:this.props.niftydata['Close'],
+                    type: 'scatter'
+                }
+                ]}
+                layout={ { height: 540,width:1000, title: 'Nifty 50 Price List'} }
+                config={{displayModeBar: false}}
+                ></Plot>
         </div>
+
+       
             </div>
         </div>
       </div>

@@ -39,7 +39,7 @@ export default class Stockpage extends Component {
     this.state = {about_company_text :this.about_company.slice(0,150),
     more_less:'more',fetchedData:{longName:"Company Name Industries Ltd",shortName:"Company",currPrice:"1000",
          stockExc:"NSE Today",currTime:Date.now(),todaysHigh:"",todaysLow:"",fiftyTwoWeekHigh:"",fiftyTwoWeekLow:"",marketCap:"",epsForward:"",trailingAnnualDividendRate:"",trailingPE:"",trailingAnnualDividendYield:"",sharesOutstanding:"",bookValue:"",fiftyDayAverage:"",priceToBook:""       
-  },dateDF:[],closePriceDF:[]
+  },dateDF:[],closePriceDF:[],sma100DF:[],open:[],high:[],low:[]
   }
     this.stock_ticker_ls = localStorage.getItem("stock_data").slice(1,localStorage.getItem("stock_data").length -1) 
     this.addText =this.addText.bind(this)
@@ -82,9 +82,9 @@ export default class Stockpage extends Component {
       d = d.data.finance_data
       this.setState({"fetchedData":{longName:d.longName,shortName:d.shortName,currPrice:d.price,todaysHigh:d.regularMarketDayHigh,todaysLow:d.regularMarketDayLow,fiftyTwoWeekHigh:d.fiftyTwoWeekHigh,fiftyTwoWeekLow:d.fiftyTwoWeekLow,marketCap:d.marketCap,epsForward:d.epsForward,trailingAnnualDividendRate:d.trailingAnnualDividendRate,trailingPE:d.trailingPE,trailingAnnualDividendYield:d.trailingAnnualDividendYield,sharesOutstanding:d.sharesOutstanding,
         bookValue:d.bookValue,fiftyDayAverage:d.fiftyDayAverage,priceToBook:d.priceToBook}})
-      this.setState({dateDF:Object.values(df.Date),closePriceDF:Object.values(df.Close)})
+      this.setState({dateDF:Object.values(df.Date),closePriceDF:Object.values(df.Close),sma100DF:Object.values(df.SMA_100),open:Object.values(df.Open),high:Object.values(df.High),low:Object.values(df.Low)})
       console.log("state fetched data")
-      console.log(this.state.fetchedData.longName)
+      
 
     })
 
@@ -267,8 +267,8 @@ export default class Stockpage extends Component {
           // ]}
           var data = {[
             {
-              x: this.state.dateDF,
-              y: this.state.closePriceDF,
+              x: this.state.dateDF.slice(0,this.state.dateDF.length),
+              y: this.state.closePriceDF.slice(0,this.state.closePriceDF.length),
               type: 'scatter'
             }
           ]}
@@ -278,6 +278,75 @@ export default class Stockpage extends Component {
         />
             </div>
           
+            <div className={styles.mc3_g}>
+            <Plot
+          // data={[
+          //   {
+          //     x: [1, 2, 3,4,5,6,7,8,9,10],
+          //     y: [2, 6, 3,5,3,4,2,5,6,4],
+          //     type: 'line',
+          //     mode: 'lines+markers',
+          //     marker: {color: 'red'},
+          //   }
+          // ]}
+          // var data = {[
+          //   {
+          //     x: ['2013-10-04 22:23:00', '2013-11-04 22:23:00', '2013-12-04 22:23:00'],
+          //     y: [1, 3, 6],
+          //     type: 'scatter'
+          //   }
+          // ]}
+          var data = {[
+            {
+              x: this.state.dateDF.splice(100,this.state.dateDF.length),
+              y: this.state.sma100DF.splice(100,this.state.sma100DF.length),
+              type: 'scatter'
+            }
+          ]}
+
+          layout={ {height: 540,width:1000, title: `100 Days Simple Moving Average ${this.state.fetchedData.longName[this.stock_ticker_ls]} Share Price`} }
+          config={{displayModeBar: false}}
+        />
+            </div>
+
+            <div className={styles.mc3_g}>
+            <Plot
+          // data={[
+          //   {
+          //     x: [1, 2, 3,4,5,6,7,8,9,10],
+          //     y: [2, 6, 3,5,3,4,2,5,6,4],
+          //     type: 'line',
+          //     mode: 'lines+markers',
+          //     marker: {color: 'red'},
+          //   }
+          // ]}
+          // var data = {[
+          //   {
+          //     x: ['2013-10-04 22:23:00', '2013-11-04 22:23:00', '2013-12-04 22:23:00'],
+          //     y: [1, 3, 6],
+          //     type: 'scatter'
+          //   }
+          // ]}
+          var data = {[
+            {
+              x: this.state.dateDF,
+
+              high:this.state.high,
+              open:this.state.open,
+              close:this.state.closePriceDF,
+              low:this.state.low,
+              type: 'candlestick',
+              xaxis: 'x', 
+              yaxis: 'y'
+              
+              
+            }
+          ]}
+
+          layout={ {height: 540,width:1000, title: `100 Days Simple Moving Average ${this.state.fetchedData.longName[this.stock_ticker_ls]} Share Price`} }
+          config={{displayModeBar: false}}
+        />
+            </div>
         </div>
 
         {/* <script src='https://cdn.plot.ly/plotly-2.18.0.min.js' onLoad={this.graph}></script> */}

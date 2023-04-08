@@ -13,17 +13,24 @@ from django.contrib.auth import logout
 import jwt
 import time
 import pandas as pd
+
+from joblib import Parallel, delayed
+import joblib
+# from sklearn.preprocessing import MinMaxScaler
+
 # from pandas_datareader import data as web
 # import yfinance
 # yfinance.pdr_override()
 
 # Create your views here.
 
-
+# obj = main.TrainStockModel()
+# obj.m()
 
 def getStock(request):
     response = {"data":"failure", "res":False}
     stock_data = main.StockData()
+    
     
     # print(df)
     if request.method == "POST":
@@ -33,9 +40,10 @@ def getStock(request):
         print("Stock Ticker name " +stock_ticker_name)
         dataframe = pd.DataFrame()
         try:
-            df = stock_data.get_data(stock_ticker_name)
-            df.reset_index(inplace=True)
-            df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
+            stock_data.get_data(stock_ticker_name)
+            df = stock_data.technical_analysis(stock_ticker_name)
+            # df.reset_index(inplace=True)
+            # df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
             dataframe = df
             
         except Exception as e:
@@ -47,9 +55,14 @@ def getStock(request):
 
         # print(df.to_json())
         finance_data = stock_data.get_finance_data_yahoo(stock_ticker_name)
+        
         response = {"data":{"DataFrame":dataframe.to_json(),"finance_data":finance_data}, "res":True}
     return JsonResponse(response)
-
+def getPredictedValues(request):
+    # trainedModel = main.TrainStockModel()
+    # predicted_data = trainedModel.m(stock_ticker_name)
+    pass
+# "predicted_data":json.dumps(predicted_data.to_list())
 def getNews(request):
     res = {"response":"failure","data":""}
     news = main.News()
@@ -95,6 +108,12 @@ def companiesByMarketValuation(request):
         res = {"response":"success","data":{"open_price":open_price,"close_price":close_price}}
     
     return JsonResponse(res);
+
+def getNifty50Stocks(request):
+    stock_data = main.StockData() 
+    stock_dict = stock_data.getNiftyStockListData()
+    return JsonResponse(stock_dict)
+    # pass
 
 def contactForm(request):
     res = {"response":"failure","data":""}

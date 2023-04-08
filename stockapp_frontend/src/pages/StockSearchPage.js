@@ -8,6 +8,7 @@ export default function StockSearchPage(props) {
   const [stockTicker,setStockTicker] = useState("");
   const [submitClicked,setSubmitClicked] = useState(false);
   const [sensexCloseData,setSensexCloseData] = useState(0)
+  const [stockListData,setStockListData] = useState({})
   const navigate = useNavigate();
 
   const fetchSensexData = async()=>{
@@ -24,9 +25,25 @@ export default function StockSearchPage(props) {
     console.log("Stock Search Page",json_sensex_data)
     setSensexCloseData(Object.values(json_sensex_data['Close']).slice(-1))
   }
+  const fetchNiftyStockListData = async()=>{
+    const response = await fetch("http://localhost:8000/getNifty50Stocks/",{
+            method:'GET',
+            // headers:(
+            //     {'X-CSRFToken': await getCsrfToken()}
+            // ),
+            // body:JSON.stringify(stock_ticker),
+            credentials:'include'
+        })
+    const data = await response.json();
+    // let json_nifty_data = JSON.parse(data)
+    console.log("Stock Nifty data",data)
+    setStockListData(data)
+    // setSensexCloseData(Object.values(json_sensex_data['Close']).slice(-1))
+  }
 
   useEffect(()=>{
     fetchSensexData();
+    fetchNiftyStockListData()
   },[])
 
   const handleStockTicker = (event)=>{
@@ -81,21 +98,20 @@ export default function StockSearchPage(props) {
         </tr>
       </thead>
     <tbody>
+      {Object.keys(stockListData).map(k=>{
+        console.log(k)
+        return (<tr>
+          <th>{k}</th>
+          <td>{stockListData[k][0]}</td>
+          <td>{stockListData[k][1]}</td>
+        </tr>)
+      })}
       <tr>
         <th>Reliance</th>
         <td>2500</td>
         <td>2600</td>
       </tr>
-      <tr>
-        <th>Reliance</th>
-        <td>2500</td>
-        <td>2600</td>
-      </tr>
-      <tr>
-        <th>Reliance</th>
-        <td>2500</td>
-        <td>2600</td>
-      </tr>
+      
     </tbody>
   </table>
 </div>
