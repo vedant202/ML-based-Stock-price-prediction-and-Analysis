@@ -11,6 +11,7 @@ export default function News() {
 
     const [newsdata,setNewsdata] = useState([]);
     const [niftydata,setNiftydata] = useState({Date:"",CloseData:""});
+    const todays_date = String(new Date().getDate())+"-"+String(new Date().getMonth())+ "-" +String(new Date().getFullYear())
 
     const fetchData = async(stock_ticker)=>{
         const response = await fetch("http://localhost:8000/getNews/",{
@@ -93,7 +94,7 @@ export default function News() {
         <div className={styles.NiftyIndex}>
             <h1>Nifty 50</h1>
             <p className={styles.NiftyIndex_price}>17,873.35</p>
-            <p>10-02-2023 12:00</p>
+            <p>{todays_date}</p>
         </div>
         </div>
 
@@ -110,65 +111,7 @@ export default function News() {
         ></Plot>
         </div>
 
-        <div className={styles.cont2}>
-            <div className={styles.financeNews}>
-                <div className={styles.headfinanceNews}>
-                    Top Finance News
-                </div>
-                <hr />
-                <div className={styles.cards}>
-                    <div className='card'>
-                        <div className='cardHeader'>
-                            <Link to=""><h3>Zomato shares slip 7% as Q3 loss widens to Rs 346.6 crore</h3></Link>
-                        </div>
-                        <div className='cardPara'>Zomato touched an intraday low of Rs 50.35, falling 7.44% on BSE. The stock opened lower at Rs 53 against the previous close of Rs 54.40</div>
-                    </div>
-                    <div className='card'>
-                        <div className='cardHeader'>
-                            <Link to=""><h3>Zomato shares slip 7% as Q3 loss widens to Rs 346.6 crore</h3></Link>
-                        </div>
-                        <div className='cardPara'>Zomato touched an intraday low of Rs 50.35, falling 7.44% on BSE. The stock opened lower at Rs 53 against the previous close of Rs 54.40</div>
-                    </div>
-                    <div className='card'>
-                        <div className='cardHeader'>
-                            <Link to=""><h3>Zomato shares slip 7% as Q3 loss widens to Rs 346.6 crore</h3></Link>
-                        </div>
-                        <div className='cardPara'>Zomato touched an intraday low of Rs 50.35, falling 7.44% on BSE. The stock opened lower at Rs 53 against the previous close of Rs 54.40</div>
-                    </div>
-                </div>
-                <div className={styles.more}>
-                    ...more
-                </div>
-            </div>
-            <div className={styles.NiftyTopStocks}>
-                <div className={styles.table_head}>
-                    <h3>Nifty50 Top Stocks</h3>
-                </div>
-                <table className={styles.NiftyTopStocks_table}>
-                    <tbody>
-                        <tr>
-                        <th>Name</th>
-                        <th>Close Price</th>
-                        </tr>
-                        
-                        <tr>
-                        <td>Reliance</td>
-                        <td>2500</td>
-                        </tr>
-
-                        <tr>
-                        <td>Reliance</td>
-                        <td>2500</td>
-                        </tr>
-
-                        <tr>
-                        <td>Reliance</td>
-                        <td>2500</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+   
 
     </div>
   )

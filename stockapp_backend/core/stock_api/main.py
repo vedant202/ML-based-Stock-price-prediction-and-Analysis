@@ -243,6 +243,8 @@ class TrainStockModel:
 
 
 # tsm = TrainStockModel()
+# prediction = tsm.m("INFY.NS")
+# print(prediction)
 # for ticker in tsm.tickers:
 #     tsm.trainStock(ticker)
 
